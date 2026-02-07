@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg"></div>
+
+  <div class="container">
+    <h2>QR Studio ✨</h2>
+
+    <!-- Smart Templates -->
+    <div class="templates">
+      <button onclick="setTemplate('url')">🌐 Website</button>
+      <button onclick="setTemplate('phone')">📞 Phone</button>
+      <button onclick="setTemplate('email')">📧 Email</button>
+      <button onclick="setTemplate('wifi')">📶 Wi-Fi</button>
+    </div>
+
+    <!-- Dynamic Inputs -->
+    <div id="inputs"></div>
+
+    <!-- Gradient Colors -->
+    <div class="row">
+      <div>
+        <label>Gradient 1</label>
+        <input type="color" id="color1" value="#000000">
+      </div>
+      <div>
+        <label>Gradient 2</label>
+        <input type="color" id="color2" value="#4f46e5">
+      </div>
+    </div>
+
+    <button onclick="generateQR()">Generate QR</button>
+
+    <!-- Poster -->
+    <div id="poster">
+      <h3 id="posterTitle">Scan Me</h3>
+      <div id="qrCode"></div>
+      <p>Created with QR Studio</p>
+    </div>
+
+    <button onclick="downloadPoster()">Download Poster</button>
+  </div>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
