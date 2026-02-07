@@ -2,7 +2,7 @@ let template = "url";
 let qr;
 
 const inputsDiv = document.getElementById("inputs");
-const qrContainer = document.getElementById("qrCode");
+const qrBox = document.getElementById("qrCode");
 
 setTemplate("url");
 
@@ -27,14 +27,22 @@ function setTemplate(type) {
 
   if (type === "wifi") {
     inputsDiv.innerHTML = `
-      <input id="ssid" placeholder="WiFi Name">
+      <input id="ssid" placeholder="Wi-Fi Name">
       <input id="pass" placeholder="Password">
     `;
   }
 }
 
+function toggleColorMode() {
+  const mode = document.getElementById("colorMode").value;
+  document.getElementById("singleColorBox").style.display =
+    mode === "single" ? "block" : "none";
+  document.getElementById("gradientBox").style.display =
+    mode === "gradient" ? "flex" : "none";
+}
+
 function generateQR() {
-  qrContainer.innerHTML = "";
+  qrBox.innerHTML = "";
 
   let data = "";
 
@@ -43,41 +51,44 @@ function generateQR() {
   }
 
   if (template === "email") {
-    const e = document.getElementById("email").value;
-    const s = document.getElementById("subject").value;
-    data = `mailto:${e}?subject=${encodeURIComponent(s)}`;
+    data = `mailto:${email.value}?subject=${encodeURIComponent(subject.value)}`;
   }
 
   if (template === "wifi") {
-    const ssid = document.getElementById("ssid").value;
-    const pass = document.getElementById("pass").value;
-    data = `WIFI:T:WPA;S:${ssid};P:${pass};;`;
+    data = `WIFI:T:WPA;S:${ssid.value};P:${pass.value};;`;
   }
 
-  const c1 = document.getElementById("color1").value;
-  const c2 = document.getElementById("color2").value;
+  const mode = document.getElementById("colorMode").value;
+  let dotsOptions;
 
-  qr = new QRCodeStyling({
-    width: 200,
-    height: 200,
-    data: data,
-    dotsOptions: {
+  if (mode === "single") {
+    dotsOptions = {
+      type: "rounded",
+      color: document.getElementById("singleColor").value
+    };
+  } else {
+    dotsOptions = {
       type: "rounded",
       gradient: {
         type: "linear",
         rotation: 0,
         colorStops: [
-          { offset: 0, color: c1 },
-          { offset: 1, color: c2 }
+          { offset: 0, color: color1.value },
+          { offset: 1, color: color2.value }
         ]
       }
-    },
-    backgroundOptions: {
-      color: "#ffffff"
-    }
+    };
+  }
+
+  qr = new QRCodeStyling({
+    width: 200,
+    height: 200,
+    data: data,
+    dotsOptions: dotsOptions,
+    backgroundOptions: { color: "#ffffff" }
   });
 
-  qr.append(qrContainer);
+  qr.append(qrBox);
 }
 
 function downloadPoster() {
